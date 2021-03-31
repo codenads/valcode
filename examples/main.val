@@ -1,0 +1,9 @@
+function intSquare(a: int): int {
+  return a * a;
+}
+
+function init(): int {
+  var result: int = intSquare(2);
+  print(result);
+  return 0;
+}

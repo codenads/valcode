@@ -1,0 +1,17 @@
+function fibonacci(n: int, fibStorage: int[]): void {
+    var i: int = 2;
+    for i, 1, n + 1 {
+        fibStorage[i] = fibStorage[i-1] + fibStorage[i-2];
+    } 
+}
+
+function init(): int {
+    var fibStorage: int[] = [0, 1];
+    var n: int = input("int");
+    var i: int = 0;
+    fibonacci(n, fibStorage);
+    for i, 1, n + 1 {
+        print(fibStorage[i]);
+    }
+    return 1;
+}

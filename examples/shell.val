@@ -1,0 +1,43 @@
+function shellShort(array: int[], n: int): void {
+    var gap: int = n // 2;
+
+    while gap > 0 {
+        var i: int = gap;
+        
+        for i, 1, n {
+            var temp: int = array[i];
+            var j: int = i;
+
+            while j >= gap and arr[j-gap] > temp {
+                array[j] = array[j-gap];
+                j = j - gap;
+            }
+            array[j] = temp;
+        }
+
+        gap = gap // 2;
+    }
+}
+
+function init(): int {
+    var array: int[];
+    var n: int = input("int");
+    var i: int = 0;
+
+    for i, 1, n {
+        array[i] = input("int");
+    }
+
+    i = 0;
+    for i, 1, n {
+        print(array[i]);
+    }
+
+    shellShort(array, n);
+
+    i = 0;
+    for i, 1, n {
+        print(array[i] + " ");
+    }
+    return 0;
+}
