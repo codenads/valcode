@@ -40,7 +40,6 @@ TOKENS = {
 
 
 class TokenEnum(Enum):
-    EOF = auto()
     ID = auto()
     FUNC = auto()
     INIT = auto()

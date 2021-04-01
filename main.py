@@ -1,13 +1,16 @@
-import sys, os
+import sys
+import os
 from token import Token
-from analisador_lexico import analisador_lexico
+from lexical_analyzer import lexical_analyzer
+
 
 def main():
     filename = sys.argv[1]
     if filename and os.path.exists(filename):
-        analisador_lexico().read_whole_file(filename)
+        lexical_analyzer().parse_file(filename)
     else:
-        print("File does not exist.")
-            
+        print("Unable to find file or path.")
+
+
 if __name__ == '__main__':
     main()
