@@ -1,29 +1,67 @@
 import re
 from token import Token
 
+TOKENS = {
+    'function': 'FUNCTION',
+    'init': 'INIT',
+    '(': 'OP_PARENTHESIS',
+    ')': 'CL_PARENTHESIS',
+    '{': 'OP_CURLY_BRACKET',
+    '}': 'CL_CURLY_BRACKET',
+    '[': 'OP_BRACKET',
+    ']': 'CL_BRACKET',
+    'int': 'INTEGER',
+    'float': 'FLOAT',
+    'bool': 'BOOLEAN',
+    'char': 'CHARACTER',
+    'null': 'NULL',
+    'void': 'VOID',
+    'string': 'STRING',
+    'return': 'RETURN',
+    'if': 'IF',
+    'var': 'VAR',
+    'else': 'ELSE',
+    'while': 'WHILE',
+    'for': 'FOR',
+    'and': 'AND',
+    'or': 'OR',
+    'not': 'NOT',
+    'input': 'INPUT',
+    'print': 'PRINT',
+    ':': 'COLON',
+    ';': 'SEMICOLON',
+    ',': 'COMMA',
+    '=': 'EQUAL',
+    '-': 'SUBTRACTION',
+    '+': 'ADDITION',
+    '/': 'DIVISION',
+    '*': 'MULTIPLICATION',
+    '//': 'FLR_DIVISION',
+}
+
 class literal_constant_check:
-    def is_integer(string):
-        return string.match(r'[+-]?\d+$')
-    def is_float(string):
-        return string.match(r'[+-]?\d+\.\d+')
-    def is_bool(string):
-        return string.match(r'[true|false]')
-    def is_char(string):
-        return string.match(r'[^"."$]')
-    def is_string(string):
-        return string.match(r'[^".*"$]/')
+    def is_integer(self, string):
+        return re.match(r'[+-]?\d+$', string)
+    def is_float(self, string):
+        return re.match(r'[+-]?\d+\.\d+', string)
+    def is_bool(self, string):
+        return re.match(r'true|false', string)
+    def is_char(self, string):
+        return re.match(r'^"."$', string)
+    def is_string(self, string):
+        return re.match(r'^".*"$', string)
     
-    def literal_constant_type(string):
-        if is_integer(string):
-            return 'CLT_INT'
-        elif is_float(string):
-            return 'CLT_FLOAT'
-        elif is_bool(string):
-            return 'CLT_BOOL'
-        elif is_char(string):
-            return 'CLT_CHAR'
-        elif is_string(string):
-            return 'CLT_STRING'
+    def literal_constant_type(self, string):
+        if self.is_integer(string):
+            return ['CLT_INT', len(TOKENS) + 1]
+        elif self.is_float(string):
+            return ['CLT_FLOAT', len(TOKENS) + 1]
+        elif self.is_bool(string):
+            return ['CLT_BOOL', len(TOKENS) + 1]
+        elif self.is_char(string):
+            return ['CLT_CHAR', len(TOKENS) + 1]
+        elif self.is_string(string):
+            return ['CLT_STRING', len(TOKENS) + 1]
 
 
 
@@ -47,77 +85,45 @@ def custom_split(str_to_split):
             elif letter == '"':
                 str_acc += letter
                 ignore_flag = True
+                if word_acc:
+                    word_list.append(word_acc)
+                    word_acc = ""
             else:
                 word_acc += letter
     if word_acc:
         word_list.append(word_acc)
+    print('word_list', word_list)
     return word_list
-
-
-
-    
-
-
 
 
 class analisador_lexico:
 
-    TOKENS = {
-        'function': 'FUNCTION',
-        'init': 'INIT',
-        '(': 'OP_PARENTHESIS',
-        ')': 'CL_PARENTHESIS',
-        '{': 'OP_CURLY_BRACKET',
-        '}': 'CL_CURLY_BRACKET',
-        '[': 'OP_BRACKET',
-        ']': 'CL_BRACKET',
-        'int': 'INTEGER',
-        'float': 'FLOAT',
-        'bool': 'BOOLEAN',
-        'char': 'CHARACTER',
-        'null': 'NULL',
-        'void': 'VOID',
-        'string': 'STRING',
-        'return': 'RETURN',
-        'if': 'IF',
-        'var': 'VAR',
-        'else': 'ELSE',
-        'while': 'WHILE',
-        'for': 'FOR',
-        'and': 'AND',
-        'or': 'OR',
-        'not': 'NOT',
-        ':': 'COLON',
-        ';': 'SEMICOLON',
-        ',': 'COMMA',
-        '=': 'EQUAL',
-        '-': 'SUBTRACTION',
-        '+': 'ADDITION',
-        '/': 'DIVISION',
-        '*': 'MULTIPLICATION',
-        '//': 'FLR_DIVISION',
-    }
-
     def nextToken(self, word, start):
         whole_word = word[start: len(word)]
 
-        if whole_word in self.TOKENS.keys():
+        if whole_word in TOKENS.keys():
             # ex.: 'function'
-            return Token(whole_word, list(self.TOKENS.keys()).index(whole_word), self.TOKENS[whole_word])
-        elif word[start] in self.TOKENS.keys():
+            return Token(whole_word, list(TOKENS.keys()).index(whole_word) + 1, TOKENS[whole_word])
+        elif word[start] in TOKENS.keys():
             # ex.: ';'
-            return Token(word[start], list(self.TOKENS.keys()).index(word[start]), self.TOKENS[word[start]])
+            return Token(word[start], list(TOKENS.keys()).index(word[start]) + 1, TOKENS[word[start]])
         else:
             # ex.: 'main()'
             end = start + 1
             while end < len(word):
-                if word[end] in self.TOKENS.keys():
+                if word[end] in TOKENS.keys():
                     break
                 end += 1
-            if word[start: end] in self.TOKENS.keys():
-                return Token(word[start: end], list(self.TOKENS.keys()).index(word[start: end]), self.TOKENS[word[start: end]])
-            #word_type = literal_constant_check.literal_constant_type()
-            return Token(word[start: end], 0, word[start: end]) #AQ
+            if word[start: end] in TOKENS.keys():
+                return Token(word[start: end], list(TOKENS.keys()).index(word[start: end]) + 1, TOKENS[word[start: end]])
+
+            literal_constant_object = literal_constant_check().literal_constant_type(word[start: end])
+            if literal_constant_object:
+                return Token(word[start: end], literal_constant_object[1], literal_constant_object[0])
+            else:
+                return Token(word[start: end], len(TOKENS) + 6, 'IDENTIFIER')    
+            print(literal_constant_object)
+             #AQ
             # TODO mudar o 0 pra o valor certo de identifiers
 
     def read_whole_file(self, filename):
@@ -129,7 +135,7 @@ class analisador_lexico:
             if not line:
                 break
 
-            print(line.replace('\n', ''))
+            print(line.replace('\n', '').replace('\t', ''))
             wordList = custom_split(line.replace('\n', ''))
 
             for word in wordList:
@@ -139,7 +145,7 @@ class analisador_lexico:
                     token = self.nextToken(word, current_word_letter)
                     current_word_letter += len(token.lexeme)
                     column_count = line.find(token.lexeme)
-                    print((10 * ' ') + str(line_count) + ' ' + str(column_count) + ' ' + 
+                    print((10 * ' ') + str(line_count + 1) + ' ' + str(column_count + 1) + ' ' + 
                         str(token.token_enum) + ' ' + token.token_enum_category + ' ' + token.lexeme)
                     if token.lexeme[-1] == word[-1]:
                         break
