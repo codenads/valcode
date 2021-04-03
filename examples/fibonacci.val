@@ -1,10 +1,18 @@
+function fibonacci(n: int, fibStorage: int[]): void {
+    var i: int = 2;
+    for i, 1, n + 1 {
+        fibStorage[i] = fibStorage[i-1] + fibStorage[i-2];
+    }
+}
+
 function init(): int {
     var fib_Storage: int[] = [0, 1];
-    var n: int = input("int");
+    var n: int;
+    input("int", n);
     var i: int = 0;
     fibonacci(n, fibStorage);
-    for i, 1, n + 1 {
-        print(fibStorage[i]);
+    while i < n + 1 {
+        print("%d", fibStorage[i]);
     }
-    return 1;
+    return 0;
 }

@@ -21,23 +21,24 @@ function shellShort(array: int[], n: int): void {
 
 function init(): int {
     var array: int[];
-    var n: int = input("int");
+    var n: int;
+    input("int", n);
     var i: int = 0;
 
     for i, 1, n {
-        array[i] = input("int");
+        input("int", array[i]);
     }
 
     i = 0;
     for i, 1, n {
-        print(array[i]);
+        print("%d", array[i]);
     }
 
     shellShort(array, n);
 
     i = 0;
     for i, 1, n {
-        print(array[i] + " ");
+        print("%d ", array[i]);
     }
     return 0;
 }
