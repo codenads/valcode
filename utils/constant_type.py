@@ -23,7 +23,7 @@ def is_string(string):
 
 
 def is_identifier(string):
-    return re.match(r'^[A-Za-z]+[A-Za-z0-9_]*', string)
+    return not re.search(r'[^A-Za-z0-9_]', string) and re.match(r'^[A-Za-z][A-Za-z0-9_]*', string)
 
 
 def custom_type(string):

@@ -37,6 +37,7 @@ TOKENS = {
     '/': 'OPR_DIV',
     '//': 'OPR_FDIV',
     'ung': 'OPR_UNG',
+    'ups': 'OPR_UPS',
     '==': 'OPR_EQUAL',
     '!=': 'OPR_UNEQ',
     '>': 'OPR_GT',
@@ -84,6 +85,7 @@ class TokenCategory(Enum):
     OPR_DIV = auto()
     OPR_FDIV = auto()
     OPR_UNG = auto()
+    OPR_UPS = auto()
     OPR_EQUAL = auto()
     OPR_UNEQ = auto()
     OPR_GT = auto()

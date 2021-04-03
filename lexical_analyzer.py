@@ -5,7 +5,7 @@ from utils.custom_split import custom_split
 
 
 class lexical_analyzer:
-    def nextToken(self, word, start):
+    def next_token(self, word, start):
 
         if word[start: len(word)] in TOKENS.keys():
             # ex.: 'function'
@@ -20,17 +20,13 @@ class lexical_analyzer:
             return Token(word[start], TokenCategory[TOKENS[word[start]]])
 
         else:
-            # function function1(): void {}
             # ex.: 'main()'
             end = start + 1
-            for end in range(end, len(word)):
+            while end < len(word):
                 if word[end] in TOKENS.keys() or word[end: end+2] in TOKENS.keys():
                     break
+                end += 1
 
-            # while end < len(word):
-            #     if word[end] in TOKENS.keys() or word[end: end+2] in TOKENS.keys():
-            #         break
-            #     end += 1
             if word[start: end] in TOKENS.keys():
                 return Token(word[start: end], TokenCategory[TOKENS[word[start: end]]])
 
@@ -41,9 +37,6 @@ class lexical_analyzer:
             else:
                 return None
 
-    def serialize_line(self, line):
-        return line.replace('\n', '')
-
     def parse_file(self, filename):
         line_count = 1
 
@@ -51,11 +44,8 @@ class lexical_analyzer:
 
         try:
             for line in file:
-                line = self.serialize_line(line)
+                line = line.replace('\n', '')
                 print(f"{line_count:04d}  {line}")
-                if not line:
-                    line_count += 1
-                    continue
 
                 wordList = custom_split(line)
 
@@ -65,16 +55,17 @@ class lexical_analyzer:
                     current_word_letter = 0
 
                     while True:
-                        token = self.nextToken(word, current_word_letter)
+                        token = self.next_token(word, current_word_letter)
                         if not token:
                             raise Exception(
-                                f'Token error at line {line_count}, column {column_count}.')
+                                f'Token error at line {line_count}, column {current_line_position + 1}.')
                         current_word_letter += len(token.lexeme)
                         column_count = line.find(
                             token.lexeme, current_line_position)
-                        current_line_position = column_count
+                        current_line_position = column_count + \
+                            len(token.lexeme)
                         print(
-                            f'{10*" "}[{line_count}, {column_count+1}]  ({token.token_enum}, {token.token_enum_category}) {{{token.lexeme}}}')
+                            f'{10*" "}[{line_count}, {column_count+1}] ({token.token_enum}, {token.token_enum_category}) {{{token.lexeme}}}')
                         if token.lexeme[-1] == word[-1]:
                             break
                 line_count += 1
