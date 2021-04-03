@@ -1,33 +1,43 @@
 import re
-from token import Token, TOKENS
-from utils.constant_type import literal_constant_type
+from token import Token, TokenCategory, TOKENS
+from utils.constant_type import custom_type
 from utils.custom_split import custom_split
 
 
 class lexical_analyzer:
     def nextToken(self, word, start):
-        whole_word = word[start: len(word)]
 
-        if whole_word in TOKENS.keys():
+        if word[start: len(word)] in TOKENS.keys():
             # ex.: 'function'
-            return Token(whole_word, list(TOKENS.keys()).index(whole_word) + 1, TOKENS[whole_word])
+            return Token(word[start: len(word)], TokenCategory[TOKENS[word[start: len(word)]]])
+
+        elif word[start: start+2] in TOKENS.keys():
+            # ex.: '==' or "!="
+            return Token(word[start: start+2], TokenCategory[TOKENS[word[start: start+2]]])
+
         elif word[start] in TOKENS.keys():
             # ex.: ';'
-            return Token(word[start], list(TOKENS.keys()).index(word[start]) + 1, TOKENS[word[start]])
+            return Token(word[start], TokenCategory[TOKENS[word[start]]])
+
         else:
+            # function function1(): void {}
             # ex.: 'main()'
             end = start + 1
-            while end < len(word):
-                if word[end] in TOKENS.keys():
+            for end in range(end, len(word)):
+                if word[end] in TOKENS.keys() or word[end: end+2] in TOKENS.keys():
                     break
-                end += 1
-            if word[start: end] in TOKENS.keys():
-                return Token(word[start: end], list(TOKENS.keys()).index(word[start: end]) + 1, TOKENS[word[start: end]])
 
-            literal_constant_object = literal_constant_type(word[start: end])
-            if literal_constant_object:
-                return Token(word[start:end], literal_constant_object[1], literal_constant_object[0])
-                print(literal_constant_object)
+            # while end < len(word):
+            #     if word[end] in TOKENS.keys() or word[end: end+2] in TOKENS.keys():
+            #         break
+            #     end += 1
+            if word[start: end] in TOKENS.keys():
+                return Token(word[start: end], TokenCategory[TOKENS[word[start: end]]])
+
+            word_custom_type = custom_type(
+                word[start: end])
+            if word_custom_type:
+                return Token(word[start:end], TokenCategory[word_custom_type])
             else:
                 return None
 
@@ -43,7 +53,12 @@ class lexical_analyzer:
             for line in file:
                 line = self.serialize_line(line)
                 print(f"{line_count:04d}  {line}")
+                if not line:
+                    line_count += 1
+                    continue
+
                 wordList = custom_split(line)
+
                 current_line_position = 0
 
                 for word in wordList:
@@ -62,7 +77,6 @@ class lexical_analyzer:
                             f'{10*" "}[{line_count}, {column_count+1}]  ({token.token_enum}, {token.token_enum_category}) {{{token.lexeme}}}')
                         if token.lexeme[-1] == word[-1]:
                             break
-
                 line_count += 1
 
         except Exception as error:

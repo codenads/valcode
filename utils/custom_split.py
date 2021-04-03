@@ -25,4 +25,6 @@ def custom_split(str_to_split):
                 word_acc += letter
     if word_acc:
         word_list.append(word_acc)
+    if word_list[0][0] == '#':
+        return []
     return word_list

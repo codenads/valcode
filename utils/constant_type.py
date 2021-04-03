@@ -26,16 +26,16 @@ def is_identifier(string):
     return re.match(r'^[A-Za-z]+[A-Za-z0-9_]*', string)
 
 
-def literal_constant_type(string):
+def custom_type(string):
     if is_integer(string):
-        return ['CLT_INT', len(TOKENS) + 1]
+        return 'CL_INT'
     elif is_float(string):
-        return ['CLT_FLOAT', len(TOKENS) + 2]
+        return 'CL_FLOAT'
     elif is_bool(string):
-        return ['CLT_BOOL', len(TOKENS) + 3]
+        return 'CL_BOOL'
     elif is_char(string):
-        return ['CLT_CHAR', len(TOKENS) + 4]
+        return 'CL_CHAR'
     elif is_string(string):
-        return ['CLT_STRING', len(TOKENS) + 5]
+        return 'CL_STR'
     elif is_identifier(string):
-        return ['IDENTIFIER', len(TOKENS) + 6]
+        return 'IDENTIFIER'
