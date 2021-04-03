@@ -92,11 +92,11 @@ class TokenCategory(Enum):
     OPR_LT = auto()
     OPR_GTE = auto()
     OPR_LTE = auto()
-    CL_INT = auto()
-    CL_FLOAT = auto()
-    CL_BOOL = auto()
-    CL_CHAR = auto()
-    CL_STR = auto()
+    CT_INT = auto()
+    CT_FLOAT = auto()
+    CT_BOOL = auto()
+    CT_CHAR = auto()
+    CT_STR = auto()
 
 
 class Token:

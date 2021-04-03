@@ -28,14 +28,14 @@ def is_identifier(string):
 
 def custom_type(string):
     if is_integer(string):
-        return 'CL_INT'
+        return 'CT_INT'
     elif is_float(string):
-        return 'CL_FLOAT'
+        return 'CT_FLOAT'
     elif is_bool(string):
-        return 'CL_BOOL'
+        return 'CT_BOOL'
     elif is_char(string):
-        return 'CL_CHAR'
+        return 'CT_CHAR'
     elif is_string(string):
-        return 'CL_STR'
+        return 'CT_STR'
     elif is_identifier(string):
         return 'IDENTIFIER'
