@@ -11,6 +11,7 @@ def main():
             token = lexical_analyzer.next_token()
             if not token:
                 break
+            token.show()
     else:
         print("Unable to find file or path.")
 
