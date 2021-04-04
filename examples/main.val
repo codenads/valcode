@@ -4,6 +4,6 @@ function intSquare(a: int): int {
 
 function init(): int {
   var result: int = intSquare(2);
-  print(result);
+  print("%d", result);
   return 0;
 }
