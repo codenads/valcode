@@ -12,7 +12,6 @@ def main():
             if not token:
                 break
             token.show()
-
     else:
         print("Unable to find file or path.")
 

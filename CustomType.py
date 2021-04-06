@@ -3,11 +3,11 @@ import re
 
 
 def is_integer(string):
-    return re.match(r'[+-]?\d+$', string)
+    return re.match(r'[+-]?[0-9]+$', string)
 
 
 def is_float(string):
-    return re.match(r'[+-]?\d+\.\d+', string)
+    return re.match(r'[+-]?[0-9]+\.[0-9]+', string)
 
 
 def is_bool(string):
@@ -15,7 +15,7 @@ def is_bool(string):
 
 
 def is_char(string):
-    return re.match(r'^"."$', string)
+    return re.match(r"^'.*'$", string)
 
 
 def is_string(string):
@@ -23,7 +23,7 @@ def is_string(string):
 
 
 def is_identifier(string):
-    return not re.search(r'[^A-Za-z0-9_]', string) and re.match(r'^[A-Za-z][A-Za-z0-9_]*', string)
+    return re.ASCII(r'^[A-Za-z][A-Za-z0-9_]*', string)
 
 
 def custom_type(string):
