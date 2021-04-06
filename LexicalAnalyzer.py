@@ -7,39 +7,38 @@ class LexicalAnalyzer:
     def __init__(self, file):
         self.file_reader = FileReader(file)
         self.word = ""
-        self.remaining_token_start = 0
 
     def next_token(self):
-        if not self.remaining_token_start:
-            self.word = self.file_reader.read()
+        if not self.word:
+            self.word = self.file_reader.next_word()
 
         if not self.word:
             return None
 
-        token_column = self.file_reader.column - len(self.word)
-        start = self.remaining_token_start
-
-        # print(word, start)
-
         if self.word in TOKENS.keys():
-            self.remaining_token_start = 0
-            return Token(self.file_reader.line, token_column, self.word, TokenCategory[TOKENS[self.word]])
-        elif self.word[start: start+2] in TOKENS.keys():
-            self.remaining_token_start += 2
-            return Token(self.file_reader.line, token_column, self.word[start: start+2], TokenCategory[TOKENS[self.word[start: start+2]]])
-        elif self.word[start] in TOKENS.keys():
-            self.remaining_token_start += 1
-            return Token(self.file_reader.line, token_column, self.word[start], TokenCategory[TOKENS[self.word[start]]])
-        else:
-            end = start + 1
-            while end < len(self.word):
-                if self.word[end] in TOKENS.keys() or self.word[end: end+2] in TOKENS.keys() and self.word[end: end+2] != 'or':
-                    self.remaining_token_start = end
-                    break
-                end += 1
+            lexeme = self.word
+            lexeme_column = self.file_reader.column
+            self.word = ""
+            self.file_reader.column += len(self.word)
+            return Token(self.file_reader.line, lexeme_column, lexeme, TokenCategory[TOKENS[lexeme]])
 
-            if self.word[start: end] in TOKENS.keys():
-                return Token(self.file_reader.line, token_column + start, self.word[start: end], TokenCategory[TOKENS[self.word[start: end]]])
+        else:
+            lexeme = ""
+            end = 1
+
+            if self.word[0] not in TOKENS.keys():
+                while end < len(self.word):
+                    if self.word[end] in TOKENS.keys():
+                        break
+                    end += 1
+
+            lexeme = self.word[0: end]
+            self.word = self.word[end:]
+
+            self.file_reader.column += end
+
+            if lexeme in TOKENS.keys():
+                return Token(self.file_reader.line, self.file_reader.column, lexeme, TokenCategory[TOKENS[lexeme]])
             else:
-                typeof = custom_type(self.word[start: end])
-                return Token(self.file_reader.line, token_column + start, self.word[start: end], TokenCategory[typeof])
+                typeof = custom_type(lexeme)
+                return Token(self.file_reader.line, self.file_reader.column, lexeme, TokenCategory[typeof])
