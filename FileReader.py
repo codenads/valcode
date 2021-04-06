@@ -30,6 +30,11 @@ class FileReader:
                         word = ""
                     flag = not flag
 
+        if word_list[0][0] == '#':
+            return []
+        else:
+            return word_list
+
     def next_word(self):
         if not word_list:
             self.line = self.file.readline()
@@ -39,7 +44,8 @@ class FileReader:
 
             self.word_list = self.split(self.line)
 
-        return self.word_list.pop(0)
+        if word_list:
+            return self.word_list.pop(0)
 
         # def char_accumulator(self):
         #     literal_char = "\'"
