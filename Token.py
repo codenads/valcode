@@ -109,6 +109,6 @@ class Token:
 
     def show(self):
         print(f'{10*" "}', end="")
-        print(f'[{self.line}, {self.column}]', end=" ")
-        print(f'({self.token_name}, {self.token_value})', end=" ")
+        print(f'[{self.line:04d}, {self.column:04d}]', end=" ")
+        print(f'({self.token_value:04d}, {self.token_name.rjust(10)})', end=" ")
         print(f'{{{self.lexeme}}}')

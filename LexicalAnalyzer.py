@@ -27,11 +27,14 @@ class LexicalAnalyzer:
             lexeme = ""
             end = 1
 
-            if self.word['lexeme'][0] not in TOKENS.keys():
+            if self.word['lexeme'][0] not in TOKENS.keys() and self.word['lexeme'][0] not in ["\'", "\""]:
                 while end < len(self.word['lexeme']):
                     if self.word['lexeme'][end] in TOKENS.keys():
                         break
                     end += 1
+
+            if self.word['lexeme'][0] in ["\'", "\""]:
+                end = len(self.word['lexeme'])
 
             lexeme = self.word['lexeme'][0: end]
             spaces = self.word['spaces']

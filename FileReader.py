@@ -38,6 +38,9 @@ class FileReader:
             else:
                 word += char
 
+        if word:
+            words.append({'lexeme': word, 'spaces': self.spaces})
+
         if words and words[0]['lexeme'][0] == "#":
             return None
         else:
@@ -50,12 +53,18 @@ class FileReader:
             if not self.file_line:
                 return None
 
-            print(self.file_line, end="")
-
             self.words = self.split(self.file_line)
 
             self.line += 1
             self.column = 1
             self.spaces = 0
+
+            end = ""
+
+            if self.file_line[-1] != "\n":
+                end = "\n"
+
+            print(f'{str(self.line).rjust(4)}  {self.file_line}',
+                  end=end)
 
         return self.words.pop(0)
