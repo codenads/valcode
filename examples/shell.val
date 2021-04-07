@@ -1,5 +1,5 @@
 function shellShort(array: int[], n: int): void {
-    var gap: int = n // 2;
+    var gap: int = n / 2;
 
     while gap > 0 {
         var i: int = gap;
@@ -15,7 +15,7 @@ function shellShort(array: int[], n: int): void {
             array[j] = temp;
         }
 
-        gap = gap // 2;
+        gap = gap / 2;
     }
 }
 

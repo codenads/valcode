@@ -1,0 +1,53 @@
+   1  function intSquare(a: int): int {
+          [0001, 0001] (0009,      RW_FN) {function}
+          [0001, 0010] (0001, IDENTIFIER) {intSquare}
+          [0001, 0019] (0003,     OP_PAR) {(}
+          [0001, 0020] (0001, IDENTIFIER) {a}
+          [0001, 0021] (0028,   SB_COLON) {:}
+          [0001, 0023] (0010,     RW_INT) {int}
+          [0001, 0026] (0004,     CL_PAR) {)}
+          [0001, 0027] (0028,   SB_COLON) {:}
+          [0001, 0029] (0010,     RW_INT) {int}
+          [0001, 0033] (0005,    OP_CBRA) {{}
+   2    return a * a;
+          [0002, 0003] (0017,     RW_RTN) {return}
+          [0002, 0010] (0001, IDENTIFIER) {a}
+          [0002, 0012] (0034,    OPR_MUL) {*}
+          [0002, 0014] (0001, IDENTIFIER) {a}
+          [0002, 0015] (0029,  SB_SCOLON) {;}
+   3  }
+          [0003, 0001] (0006,    CL_CBRA) {}}
+   4  
+   5  function init(): int {
+          [0005, 0001] (0009,      RW_FN) {function}
+          [0005, 0010] (0002,    RW_INIT) {init}
+          [0005, 0014] (0003,     OP_PAR) {(}
+          [0005, 0015] (0004,     CL_PAR) {)}
+          [0005, 0016] (0028,   SB_COLON) {:}
+          [0005, 0018] (0010,     RW_INT) {int}
+          [0005, 0022] (0005,    OP_CBRA) {{}
+   6    var result: int = intSquare(2);
+          [0006, 0003] (0022,     RW_VAR) {var}
+          [0006, 0007] (0001, IDENTIFIER) {result}
+          [0006, 0013] (0028,   SB_COLON) {:}
+          [0006, 0015] (0010,     RW_INT) {int}
+          [0006, 0019] (0031,    SB_ASGN) {=}
+          [0006, 0021] (0001, IDENTIFIER) {intSquare}
+          [0006, 0030] (0003,     OP_PAR) {(}
+          [0006, 0031] (0045,     CT_INT) {2}
+          [0006, 0032] (0004,     CL_PAR) {)}
+          [0006, 0033] (0029,  SB_SCOLON) {;}
+   7    print("%d", result);
+          [0007, 0003] (0027,   RW_PRINT) {print}
+          [0007, 0008] (0003,     OP_PAR) {(}
+          [0007, 0009] (0049,     CT_STR) {"%d"}
+          [0007, 0013] (0030,   SB_COMMA) {,}
+          [0007, 0015] (0001, IDENTIFIER) {result}
+          [0007, 0021] (0004,     CL_PAR) {)}
+          [0007, 0022] (0029,  SB_SCOLON) {;}
+   8    return 0;
+          [0008, 0003] (0017,     RW_RTN) {return}
+          [0008, 0010] (0045,     CT_INT) {0}
+          [0008, 0011] (0029,  SB_SCOLON) {;}
+   9  }
+          [0009, 0001] (0006,    CL_CBRA) {}}

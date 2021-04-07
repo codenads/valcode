@@ -1,3 +1,4 @@
+from Word import Word
 BYTE = 1
 
 
@@ -20,28 +21,28 @@ class FileReader:
         for char in line:
             if char == "\n":
                 if word:
-                    words.append({'lexeme': word, 'spaces': self.spaces})
+                    words.append(Word(word, self.spaces))
                     word = ""
                 break
             elif char == " ":
                 if word and not flag:
-                    words.append({'lexeme': word, 'spaces': self.spaces})
+                    words.append(Word(word, self.spaces))
                     word = ""
                 self.spaces += 1
             elif char == "\"" or char == "\'":
                 if flag:
                     word = f'{char}{word}{char}'
                 if word:
-                    words.append({'lexeme': word, 'spaces': self.spaces})
+                    words.append(Word(word, self.spaces))
                     word = ""
                 flag = not flag
             else:
                 word += char
 
         if word:
-            words.append({'lexeme': word, 'spaces': self.spaces})
+            words.append(Word(word, self.spaces))
 
-        if words and words[0]['lexeme'][0] == "#":
+        if words and words[0].lexeme[0] == "#":
             return None
         else:
             return words
